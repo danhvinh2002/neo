@@ -3,6 +3,7 @@ package com.neo.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 
 @Data
@@ -23,8 +24,10 @@ public class UserEntity {
     private Integer age;
     @Column(name = "address")
     private String address;
-    @Column(name = "sex", length = 10,nullable = false)
+    @Column(name = "phone", length = 10)
     private Integer sex;
+    @Column(name = "birthday")
+    private Date birthday;
 
     public String checkSex() {
         if (sex == 1) {

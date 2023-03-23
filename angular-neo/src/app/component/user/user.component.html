@@ -1,59 +1,89 @@
 <div class="container">
-
-  <form class="form" [formGroup]="formGroup">
+  <form [formGroup]="formGroup" id="list-item-1">
     <div class="row">
       <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label for="first-name-column" class="mt-2">Name</label>
-          <input
-            type="text"
-            formControlName="name"
-            id="first-name-column"
-            class="form-control mt-2"
-            placeholder="Name"
-            name="fname-column"
-          />
-        </div>
+        <label for="exampleInputEmail1" class="form-label">Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <span
+          class="text-error"
+          *ngIf="
+          formGroup.controls['name'].hasError('required') &&
+          formGroup.controls['name'].touched
+        "
+        >Vui lòng nhập name!</span
+        >
       </div>
       <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label for="last-name-column" class="mt-2">Email</label>
-          <input
-            type="text"
-            id="last-name-column"
-            formControlName="email"
-            class="form-control mt-2"
-            placeholder="Email"
-            name="lname-column"
-          />
-        </div>
+        <label for="exampleInputPassword1" class="form-label">Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="form-control"
+          id="exampleInputPassword1"
+        />
+        <span
+          class="text-error"
+          *ngIf="
+          formGroup.controls['email'].hasError('required') &&
+          formGroup.controls['email'].touched
+        "
+        >Vui lòng nhập email!</span
+        ><span
+        class="text-error"
+        *ngIf="
+          formGroup.controls['email'].hasError('email') &&
+          formGroup.controls['email'].touched
+        "
+      >Email không đúng định dạng!</span
+      >
       </div>
-      <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label for="country-floating" class="mt-2">Age</label>
-          <input
-            type="number"
-            id="country-floating"
-            formControlName="age"
-            class="form-control mt-2"
-            name="country-floating"
-            placeholder="Age"
-          />
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <label for="exampleInputPassword1" class="form-label">Age</label>
+        <input
+          type="number"
+          formControlName="age"
+          class="form-control"
+          id="exampleInputPassword1"
+        />
+        <span
+          class="text-error"
+          *ngIf="
+          formGroup.controls['age'].hasError('required') &&
+          formGroup.controls['age'].touched
+        "
+        >Vui lòng nhập tuổi!</span
+        >
       </div>
-      <div class="col-md-6 col-12">
-        <div class="form-group">
-          <label class="mt-2">Gender</label>
-          <select formControlName="sex" class="form-control mt-2">
-            <option value="1" selected>Nam</option>
-            <option value="0">Nữ</option>
-          </select>
-        </div>
+      <div class="col-md-4 col-12">
+        <label for="exampleInputPassword1" class="form-label">Gender</label>
+        <select class="form-control" formControlName="sex">
+          <option [value]="1" selected>Nam</option>
+          <option [value]="0">Nữ</option>
+        </select>
       </div>
+      <div class="col-md-4 col-12">
+        <label for="exampleInputPassword1" class="form-label">Birthday</label>
+        <input
+          type="date"
+          formControlName="birthday"
+          class="form-control"
+          id="exampleInputPassword1"
+        />
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-4 col-12">
         <div class="form-group">
           <label  class="mt-2">City</label>
-          <select class="form-control mt-2" [(ngModel)]="province_code" (ngModelChange)="getProvince()" >
+          <select class="form-control mt-2" (ngModelChange)="getProvince()" >
             <option disabled selected >Chọn Tỉnh/Thành phố</option>
             <option *ngFor="let data of city" value="{{data.id}}">  {{ data.name }}</option>
           </select>
@@ -65,7 +95,7 @@
           <select class="form-control mt-2" >
             <option selected disabled > Chọn Quận/Huyện</option>
             <ng-container *ngFor="let district of district">
-            <option *ngIf="district.provinceId == province_code">  {{ district.name }}</option>
+              <option >  {{ district.name }}</option>
             </ng-container>
           </select>
         </div>
@@ -79,27 +109,36 @@
           </select>
         </div>
       </div>
-      <div class="col-12">
-        <div class="form-group">
-          <label for="address" class="mt-2">Address</label>
-          <textarea
-            id="address"
-            rows="3"
-            class="form-control mt-2"
-            name="address"
-            formControlName="address"
-            placeholder="Address"
-          ></textarea>
-        </div>
-      </div>
-      <div class="col-12">
-        <button type="submit" (click)="AddOrUpdate()"  class="btn btn-primary mr-1 mt-3">Submit</button>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Address</label>
+      <textarea
+        class="form-control"
+        formControlName="address"
+        id="floatingTextarea2Disabled"
+        style="height: 100px"
+      ></textarea>
+      <span
+        class="text-error"
+        *ngIf="
+          formGroup.controls['address'].hasError('required') &&
+          formGroup.controls['address'].touched
+        "
+      >Vui lòng nhập địa chỉ!</span
+      >
+    </div>
 
-        <button type="reset" rippleEffect class="btn btn-outline-secondary mt-3">Reset</button>
+    <div class="row">
+      <div class="col-1">
+        <button type="submit" (click)="AddOrUpdate()" class="btn btn-primary">
+          Submit
+        </button>
+      </div>
+      <div class="col-3 mr-2">
+        <button type="reset" class="btn btn-info">ClearForm</button>
       </div>
     </div>
   </form>
-
   <div class="row mt-3 mb-3 d-flex justify-content-start" id="list-item-2">
     <div class="col-1">
       <select class="form-control"[(ngModel)]="basicSelectedOption">
@@ -119,16 +158,17 @@
     </div>
   </div>
   <table class="table" id="list-item-3">
-    <thead class="table table-dark">
-      <tr>
-        <th (click)="sortId()">Id</th>
-        <th (click)="sortName()">Name</th>
-        <th>Email</th>
-        <th (click)="sortAge()">Age</th>
-        <th>Address</th>
-        <th>Gender</th>
-        <th>Action</th>
-      </tr>
+    <thead class="table table-secondary table-hover">
+    <tr>
+      <th (click)="sortId()">Id</th>
+      <th (click)="sortName()">Name</th>
+      <th>Email</th>
+      <th (click)="sortAge()">Age</th>
+      <th>Birthday</th>
+      <th>Address</th>
+      <th>Gender</th>
+      <th>Action</th>
+    </tr>
     </thead>
     <tbody
       *ngFor="
@@ -136,23 +176,24 @@
           | paginate : { itemsPerPage: basicSelectedOption, currentPage: p }
       "
     >
-      <tr>
-        <td>{{ u.id }}</td>
-        <td>{{ u.name }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.age }}</td>
-        <td>{{ u.address }}</td>
-        <td>{{ u.sex ? "Nam" : "Nữ" }}</td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteUser(u.id)">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-          |
-          <button class="btn btn-warning" (click)="editUser(u)">
-            <i class="fa-sharp fa-solid fa-pen-to-square"></i>
-          </button>
-        </td>
-      </tr>
+    <tr>
+      <td>{{ u.id }}</td>
+      <td>{{ u.name }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.age }}</td>
+      <td>{{ u.birthday | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ u.address }}</td>
+      <td>{{ u.sex ? "Nam" : "Nữ" }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteUser(u.id)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        |
+        <button class="btn btn-warning" (click)="editUser(u)">
+          <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+        </button>
+      </td>
+    </tr>
     </tbody>
   </table>
   <pagination-controls

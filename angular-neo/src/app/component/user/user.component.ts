@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/service/user.service';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import {District} from "../../shared/user/district/district";
-import {Province} from "../../shared/user/provinces/province";
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -14,14 +13,13 @@ export class UserComponent implements OnInit {
   formGroup!: FormGroup;
   user: any;
   searchName: any;
+  city: any;
+  district: any;
+  wards: any;
   checkButton!: boolean;
   sort!: boolean;
   basicSelectedOption :number = 5;
-  city : Province[] = [];
-  district !: District[];
-  wards : any;
-  province_code!: number;
-  idCity!: number;
+
   constructor(private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -33,13 +31,13 @@ export class UserComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       id: [''],
       name: ['',Validators.required],
-      email: ['',Validators.required],
+      email: ['',[Validators.required, Validators.email]],
       age: ['',Validators.required],
+      birthday: ['',Validators.required],
       address: ['',Validators.required],
       sex: [1]
     });
   }
-
   getAll() {
     this.userService.getAll().subscribe(data => {
       console.log("thành công", data);
@@ -91,8 +89,9 @@ export class UserComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       id: [''],
       name: ['',Validators.required],
-      email: ['',Validators.required],
+      email: ['',[Validators.required, Validators.email]],
       age: ['',Validators.required],
+      birthday: ['',Validators.required],
       address: ['',Validators.required],
       sex: [1]
     });
@@ -138,8 +137,8 @@ export class UserComponent implements OnInit {
   }
   AddOrUpdate(){
     if(this.formGroup.invalid){
-        this.formGroup.markAllAsTouched();
-        return;
+      this.formGroup.markAllAsTouched();
+      return;
     }
     if(this.checkButton){
       this.addUser();
@@ -154,15 +153,6 @@ export class UserComponent implements OnInit {
     }else{
       this.user.sort((a:any,b:any)=>b.name.localeCompare(a.name));
     }
-  }
-
-  sortByNameDb(){
-    this.userService.getSortName().subscribe(data=> {
-      console.log("thành công", data);
-      this.user = data;
-    },error => {
-      console.log("lỗi", error);
-    });
   }
   sortId(){
     this.sort = !this.sort;
@@ -196,26 +186,13 @@ export class UserComponent implements OnInit {
       console.log("lỗi", error);
     });
   }
-  // getDistrictsByProvinceId(code: number){
-  //   this.userService.getDistricts(code).subscribe(data=> {
-  //     console.log("thành công", data);
-  //     console.log(code);
-  //     this.district = data;
-  //   },error => {
-  //     console.log("lỗi", error);
-  //   });
-  // }
-  getAllWards(){
-    this.userService.getAllWards().subscribe(data=> {
+  private getAllWards() {
+    this.userService.getAllWards().subscribe(data => {
       console.log("thành công", data);
       this.wards = data;
-    },error => {
+    }, error => {
       console.log("lỗi", error);
     });
   }
-  changeProvince(event: any){
-    console.log(event.target.value);
-  }
-
 }
 
