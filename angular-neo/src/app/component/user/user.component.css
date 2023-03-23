@@ -1,3 +1,17 @@
 .text-error{
     color: red;
 }
+
+.my-pagination /deep/ .ngx-pagination .current {
+  background: cadetblue;
+  border: transparent !important;
+  border-radius: 20px !important;
+}
+.table-color{
+  background: cadetblue;
+  color: white;
+}
+.bg{
+  background : burlywood;
+}
+

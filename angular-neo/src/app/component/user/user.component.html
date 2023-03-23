@@ -1,3 +1,4 @@
+<div class="bg">
 <div class="container">
   <form [formGroup]="formGroup" id="list-item-1">
     <div class="row">
@@ -135,7 +136,7 @@
         </button>
       </div>
       <div class="col-3 mr-2">
-        <button type="reset" class="btn btn-info">ClearForm</button>
+        <button type="reset" *ngIf="checkButton?'[hidden]':''" class="btn btn-info">ClearForm</button>
       </div>
     </div>
   </form>
@@ -158,7 +159,7 @@
     </div>
   </div>
   <table class="table" id="list-item-3">
-    <thead class="table table-secondary table-hover">
+    <thead class="table-color">
     <tr>
       <th (click)="sortId()">Id</th>
       <th (click)="sortName()">Name</th>
@@ -197,7 +198,8 @@
     </tbody>
   </table>
   <pagination-controls
-    class="d-flex justify-content-end"
+    class="my-pagination d-flex justify-content-end"
     (pageChange)="p = $event"
   ></pagination-controls>
+</div>
 </div>
