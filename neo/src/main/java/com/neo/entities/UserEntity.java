@@ -28,6 +28,12 @@ public class UserEntity {
     private Integer sex;
     @Column(name = "birthday")
     private Date birthday;
+    @Column(name="province")
+    private String province;
+    @Column(name="district")
+    private String district;
+    @Column(name="wards")
+    private String wards;
 
     public String checkSex() {
         if (sex == 1) {

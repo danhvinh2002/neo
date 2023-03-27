@@ -31,17 +31,28 @@ export class UserService {
   getSortName() : Observable<any> {
     return this.http.get(`${this.API}/api/user/sortByName`);
   }
+  ///
 
-  getProvinces() : Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/`);
+  getProvince(): Observable<any> {
+    return this.http.get("https://provinces.open-api.vn/api/p/");
   }
-  getDistricts(id: number) : Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/p/${id}?depth=2`);
+  getProvinceById(id: any): Observable<any> {
+    return this.http.get(`https://provinces.open-api.vn/api/p/${id}?depth=3`);
   }
-  getAllDistricts() : Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/d`);
+
+  getDistrict(): Observable<any> {
+    return this.http.get("https://provinces.open-api.vn/api/d/");
   }
-  getAllWards() : Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/w`);
+
+  getDistrictById(id: any): Observable<any> {
+    return this.http.get("https://provinces.open-api.vn/api/d/" + id);
+  }
+
+  getWard(): Observable<any> {
+    return this.http.get("https://provinces.open-api.vn/api/w/");
+  }
+
+  getWardById(id: any): Observable<any> {
+    return this.http.get("https://provinces.open-api.vn/api/w/" + id);
   }
 }

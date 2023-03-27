@@ -1,8 +1,7 @@
-export class District {
+export class Ward {
   name?: string;
   code?: any;
   division_type?: string;
   codename?: string;
-  province_code?: any;
-
+  district_code?: any;
 }

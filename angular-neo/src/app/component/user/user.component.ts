@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/service/user.service';
-import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import {Province} from "../../shared/user/provinces/province";
+import {District} from "../../shared/user/district/district";
+import {User} from "../../shared/user/user/user";
+import {Ward} from "../../shared/user/ward/ward";
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -11,15 +14,15 @@ import Swal from 'sweetalert2';
 export class UserComponent implements OnInit {
   p: number =1;
   formGroup!: FormGroup;
-  user: any;
+  user: any = new User();
   searchName: any;
-  city: any;
-  district: any;
-  wards: any;
+  Provinces?: Province[];
+  Districts?: District[];
+  Wards?: Ward[];
+  id?: any;
   checkButton!: boolean;
   sort!: boolean;
   basicSelectedOption :number = 5;
-
   constructor(private formBuilder: FormBuilder, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -35,9 +38,13 @@ export class UserComponent implements OnInit {
       age: ['',Validators.required],
       birthday: ['',Validators.required],
       address: ['',Validators.required],
-      sex: [1]
+      sex: [1],
+      province: ['',Validators.required],
+      district: ['',Validators.required],
+      wards: ['',Validators.required],
     });
   }
+
   getAll() {
     this.userService.getAll().subscribe(data => {
       console.log("thành công", data);
@@ -93,7 +100,10 @@ export class UserComponent implements OnInit {
       age: ['',Validators.required],
       birthday: ['',Validators.required],
       address: ['',Validators.required],
-      sex: [1]
+      sex: [1],
+      province: ['',Validators.required],
+      district: ['',Validators.required],
+      wards: ['',Validators.required],
     });
   }
   deleteUser(id: any) {
@@ -170,26 +180,26 @@ export class UserComponent implements OnInit {
       this.user.sort((a:any,b:any)=>b.age-a.age);
     }
   }
-  getProvince(){
-    this.userService.getProvinces().subscribe(data=> {
+  getProvince() {
+    this.userService.getProvince().subscribe(data => {
+      this.Provinces = data;
       console.log("thành công", data);
-      this.city = data;
-    },error => {
+    }, error => {
       console.log("lỗi", error);
     });
   }
-  getDistricts(){
-    this.userService.getAllDistricts().subscribe(data=> {
-      console.log("thành công", data);
-      this.district = data;
-    },error => {
+  getDistricts() {
+    this.userService.getDistrict().subscribe(data => {
+      this.Districts = data;
+      console.log("thành công quan huyen", data);
+    }, error => {
       console.log("lỗi", error);
     });
   }
   private getAllWards() {
-    this.userService.getAllWards().subscribe(data => {
+    this.userService.getWard().subscribe(data => {
+      this.Wards = data;
       console.log("thành công", data);
-      this.wards = data;
     }, error => {
       console.log("lỗi", error);
     });
