@@ -73,7 +73,7 @@ export class UserComponent implements OnInit {
   editUser(user: any) {
     this.checkButton = false;
     this.formGroup.patchValue(user);
-    console.log(user.id);
+    console.log(user);
   }
   updateUser() {
     this.userService.updateUser(this.formGroup.value).subscribe(data => {
