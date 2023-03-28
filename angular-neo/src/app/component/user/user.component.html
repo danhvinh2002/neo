@@ -1,5 +1,7 @@
+<div class="bg">
 <div class="container">
   <form [formGroup]="formGroup" id="list-item-1">
+    <h1>Form {{checkButton?'Add':'Update'}} User</h1>
     <div class="row">
       <div class="col-md-6 col-12">
         <label for="exampleInputEmail1" class="form-label">Name</label>
@@ -131,7 +133,7 @@
     <div class="row">
       <div class="col-1">
         <button type="submit" (click)="AddOrUpdate()" class="btn btn-primary">
-          Submit
+          {{checkButton?'Add':'Update'}}
         </button>
       </div>
       <div class="col-3 mr-2">
@@ -157,19 +159,20 @@
       />
     </div>
   </div>
-  <table class="table" id="list-item-3">
+  <div class="table-responsive">
+  <table class="table responsive" id="list-item-3">
     <thead class="table-color">
     <tr>
       <th (click)="sortId()">Id <i class="fa-solid fa-sort"></i></th>
       <th (click)="sortName()">Name <i class="fa-solid fa-sort"></i></th>
-      <th>Email</th>
+      <th (click)="sortEmail()">Email <i class="fa-solid fa-sort"></i></th>
       <th (click)="sortAge()">Age <i class="fa-solid fa-sort"></i></th>
       <th>Birthday</th>
-      <th>Address</th>
       <th>Gender</th>
       <th>Province</th>
       <th>District</th>
       <th>Wards</th>
+      <th>Address</th>
       <th>Action</th>
     </tr>
     </thead>
@@ -185,7 +188,6 @@
       <td>{{ u.email }}</td>
       <td>{{ u.age }}</td>
       <td>{{ u.birthday | date: 'dd/MM/yyyy' }}</td>
-      <td>{{ u.address }}</td>
       <td>{{ u.sex ? "Nam" : "Nữ" }}</td>
       <ng-container *ngFor="let province of Provinces">
       <td *ngIf="province.code == u.province">{{ province.name}}</td>
@@ -196,6 +198,7 @@
       <ng-container *ngFor="let ward of Wards">
       <td *ngIf="ward.code == u.wards">{{ ward.name}}</td>
       </ng-container>
+      <td>{{ u.address }}</td>
       <td>
         <button class="btn btn-danger" (click)="deleteUser(u.id)">
           <i class="fa-solid fa-trash"></i>
@@ -208,8 +211,10 @@
     </tr>
     </tbody>
   </table>
+  </div>
   <pagination-controls
     class="my-pagination d-flex justify-content-end"
     (pageChange)="p = $event"
   ></pagination-controls>
+</div>
 </div>

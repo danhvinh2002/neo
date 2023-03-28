@@ -204,5 +204,13 @@ export class UserComponent implements OnInit {
       console.log("lỗi", error);
     });
   }
+  sortEmail(){
+    this.sort = !this.sort;
+    if(this.sort){
+      this.user.sort((a:any,b:any)=>a.email.localeCompare(b.email));
+    }else{
+      this.user.sort((a:any,b:any)=>b.email.localeCompare(a.email));
+    }
+  }
 }
 
