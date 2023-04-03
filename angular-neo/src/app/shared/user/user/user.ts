@@ -1,6 +1,3 @@
-import {Province} from "../provinces/province";
-import {District} from "../district/district";
-import {Ward} from "../ward/ward";
 
 export class User{
   id?: number;
@@ -9,7 +6,7 @@ export class User{
   age?: number;
   address?: string;
   birthday?: string;
-  province?: Province;
-  district?: District;
-  wards?:Ward;
+  province_id?: any;
+  district_id?: any;
+  wards_id?:any;
 }

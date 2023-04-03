@@ -1,7 +1,5 @@
 export class Ward {
+  wardId?: any;
+  districtId?: any;
   name?: string;
-  code?: any;
-  division_type?: string;
-  codename?: string;
-  district_code?: any;
 }

@@ -1,5 +1,6 @@
 package com.neo.controller;
 
+import com.neo.dto.UserDto;
 import com.neo.entities.UserEntity;
 import com.neo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,18 @@ public class UserRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody UserEntity userEntity) {
+    public ResponseEntity<?> addUser(@RequestBody UserDto userEntity) {
         return ResponseEntity.ok(userService.addUser(userEntity));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserEntity userEntity) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userEntity) {
         return ResponseEntity.ok(userService.updateUser(userEntity));
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    public ResponseEntity<?> getUserById(@PathVariable Integer id, UserDto user) {
+        return ResponseEntity.ok(userService.getUserById(user, id));
     }
 
     @DeleteMapping("/delete/{id}")

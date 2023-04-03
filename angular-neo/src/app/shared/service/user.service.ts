@@ -23,7 +23,7 @@ export class UserService {
     return this.http.delete(`${this.API}/api/user/delete/${id}`);
   }
   getById(id: any) : Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/`);
+    return this.http.get(`${this.API}/api/user/get/${id}`);
   }
   getByName(searchName: any) : Observable<any> {
     return this.http.get(`${this.API}/api/user/findByName/${searchName}`);
@@ -31,28 +31,19 @@ export class UserService {
   getSortName() : Observable<any> {
     return this.http.get(`${this.API}/api/user/sortByName`);
   }
-  ///
-
-  getProvince(): Observable<any> {
-    return this.http.get("https://provinces.open-api.vn/api/p/");
+  getProvince() : Observable<any> {
+    return this.http.get(`http://localhost:8080/api/province/all`);
   }
-  getProvinceById(id: any): Observable<any> {
-    return this.http.get(`https://provinces.open-api.vn/api/p/${id}?depth=3`);
+  getDistrict() : Observable<any> {
+    return this.http.get(`http://localhost:8080/api/district/all`);
   }
-
-  getDistrict(): Observable<any> {
-    return this.http.get("https://provinces.open-api.vn/api/d/");
+  getWard() : Observable<any> {
+    return this.http.get(`http://localhost:8080/api/wards/all`);
   }
-
-  getDistrictById(id: any): Observable<any> {
-    return this.http.get("https://provinces.open-api.vn/api/d/" + id);
+  getDistrictsByProvinceId(id: any) : Observable<any> {
+    return this.http.get(`http://localhost:8080/api/district/getProvince/${id}`);
   }
-
-  getWard(): Observable<any> {
-    return this.http.get("https://provinces.open-api.vn/api/w/");
-  }
-
-  getWardById(id: any): Observable<any> {
-    return this.http.get("https://provinces.open-api.vn/api/w/" + id);
+  getWardsByDistrictId(id: any) : Observable<any> {
+    return this.http.get(`http://localhost:8080/api/wards/getByDistrictId/${id}`);
   }
 }

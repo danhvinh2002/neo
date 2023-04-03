@@ -10,6 +10,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Entity(name = "tbl_user")
 public class UserEntity {
@@ -28,12 +29,15 @@ public class UserEntity {
     private Integer sex;
     @Column(name = "birthday")
     private Date birthday;
-    @Column(name="province")
-    private String province;
-    @Column(name="district")
-    private String district;
-    @Column(name="wards")
-    private String wards;
+    @JoinColumn(name="province")
+    @OneToOne
+    private ProvinceEntity province;
+    @JoinColumn(name="district")
+    @OneToOne
+    private DistrictEntity district;
+    @JoinColumn(name="wards")
+    @OneToOne
+    private WardEntity wards;
 
     public String checkSex() {
         if (sex == 1) {

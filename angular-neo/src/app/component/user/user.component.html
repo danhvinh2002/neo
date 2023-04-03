@@ -1,7 +1,12 @@
-<div class="bg">
+
 <div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="d-flex justify-content-center mt-2 " border="1px">Form User</h1>
+    </div>
+    <div class="card-body">
   <form [formGroup]="formGroup" id="list-item-1">
-    <h1>Form {{checkButton?'Add':'Update'}} User</h1>
+
     <div class="row">
       <div class="col-md-6 col-12">
         <label for="exampleInputEmail1" class="form-label">Name</label>
@@ -52,6 +57,7 @@
           type="number"
           formControlName="age"
           class="form-control"
+          min="1"
         />
         <span
           class="text-error"
@@ -82,33 +88,55 @@
       <div class="col-md-4 col-12">
         <div class="form-group">
         <label class="mt-2" for="province">Province:</label>
-        <select class="form-control mt-2" id="province" [(ngModel)]="user.province" formControlName="province" >
+        <select class="form-control mt-2" id="province" [(ngModel)]="user.province_id" formControlName="province" >
           <option value="0" selected disabled>Chọn Tỉnh/Thành phố</option>
-          <option *ngFor="let province of Provinces" value="{{province.code}}">{{province.name}}</option>
+          <option *ngFor="let province of Provinces" value="{{province.provinceId}}">{{province.name}}</option>
         </select>
+          <span
+            class="text-error"
+            *ngIf="
+          formGroup.controls['province'].hasError('required') &&
+          formGroup.controls['province'].touched
+        "
+          >Vui lòng chọn thành phố/tỉnh !</span
+          >
       </div>
         </div>
         <div class="col-md-4 col-12">
       <div class="form-group">
         <label class="mt-2" for="district">District:</label>
-        <select class="form-control mt-2" id="district" [(ngModel)]="user.district" formControlName="district" >
+        <select class="form-control mt-2" id="district" [(ngModel)]="user.district_id" formControlName="district" >
           <option value="0" selected disabled>Chọn Quận/Huyện</option>
           <ng-container *ngFor="let district of Districts">
-            <option *ngIf="district.province_code == user.province" value="{{district.code}}">
+            <option *ngIf="district.provinceId == user.province_id" value="{{district.districtId}}">
               {{district.name}}</option>
           </ng-container>
         </select>
+        <span
+          class="text-error"
+          *ngIf="
+          formGroup.controls['district'].hasError('required') &&
+          formGroup.controls['district'].touched
+        "
+        >Vui lòng chọn quận/huyện !</span>
       </div>
       </div>
       <div class="col-md-4 col-12">
         <div class="form-group">
           <label class="mt-2">Wards</label>
-          <select class="form-control mt-2" formControlName="wards">
+          <select class="form-control mt-2" [(ngModel)]="user.wards_id" formControlName="wards">
             <option disabled selected>Chọn Xã/Phường</option>
             <ng-container *ngFor="let ward of Wards">
-            <option *ngIf="ward.district_code == user.district" value="{{ward.code}}" >  {{ ward.name }}</option>
+            <option *ngIf="ward.districtId == user.district_id" value="{{ward.wardId}}" >  {{ ward.name }}</option>
             </ng-container>
           </select>
+          <span
+            class="text-error"
+            *ngIf="
+          formGroup.controls['wards'].hasError('required') &&
+          formGroup.controls['wards'].touched
+        "
+          >Vui lòng chọn phường/xã !</span>
         </div>
       </div>
     </div>
@@ -130,17 +158,19 @@
       >
     </div>
 
-    <div class="row">
+    <div class="row d-flex justify-content-center">
       <div class="col-1">
         <button type="submit" (click)="AddOrUpdate()" class="btn btn-primary">
-          {{checkButton?'Add':'Update'}}
+          Submit
         </button>
       </div>
-      <div class="col-3 mr-2">
-        <button type="reset" *ngIf="checkButton?'[hidden]':''" class="btn btn-info">ClearForm</button>
+      <div class="col-2">
+        <button type="reset" class="btn btn-info">ClearForm</button>
       </div>
     </div>
   </form>
+    </div>
+  </div>
   <div class="row mt-3 mb-3 d-flex justify-content-start" id="list-item-2">
     <div class="col-1">
       <select class="form-control"[(ngModel)]="basicSelectedOption">
@@ -159,7 +189,7 @@
       />
     </div>
   </div>
-  <div class="table-responsive">
+  <div class="table-responsive-md">
   <table class="table responsive" id="list-item-3">
     <thead class="table-color">
     <tr>
@@ -169,10 +199,8 @@
       <th (click)="sortAge()">Age <i class="fa-solid fa-sort"></i></th>
       <th>Birthday</th>
       <th>Gender</th>
-      <th>Province</th>
-      <th>District</th>
-      <th>Wards</th>
       <th>Address</th>
+      <th>Address Detail</th>
       <th>Action</th>
     </tr>
     </thead>
@@ -189,15 +217,7 @@
       <td>{{ u.age }}</td>
       <td>{{ u.birthday | date: 'dd/MM/yyyy' }}</td>
       <td>{{ u.sex ? "Nam" : "Nữ" }}</td>
-      <ng-container *ngFor="let province of Provinces">
-      <td *ngIf="province.code == u.province">{{ province.name}}</td>
-      </ng-container>
-      <ng-container *ngFor="let district of Districts">
-      <td *ngIf="district.code == u.district">{{ district.name}}</td>
-      </ng-container>
-      <ng-container *ngFor="let ward of Wards">
-      <td *ngIf="ward.code == u.wards">{{ ward.name}}</td>
-      </ng-container>
+      <td>{{ u.province.name }} , {{u.district.name}}, {{u.wards.name}}</td>
       <td>{{ u.address }}</td>
       <td>
         <button class="btn btn-danger" (click)="deleteUser(u.id)">
@@ -216,5 +236,4 @@
     class="my-pagination d-flex justify-content-end"
     (pageChange)="p = $event"
   ></pagination-controls>
-</div>
 </div>

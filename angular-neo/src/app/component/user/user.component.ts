@@ -19,7 +19,6 @@ export class UserComponent implements OnInit {
   Provinces?: Province[];
   Districts?: District[];
   Wards?: Ward[];
-  id?: any;
   checkButton!: boolean;
   sort!: boolean;
   basicSelectedOption :number = 5;
@@ -57,7 +56,6 @@ export class UserComponent implements OnInit {
   addUser() {
     this.userService.addUser(this.formGroup.value).subscribe(data => {
       console.log("thành công", data);
-      this.getAll();
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -65,20 +63,22 @@ export class UserComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
+      this.getAll();
       this.clearForm();
     }, error => {
       console.log("lỗi", error);
     });
   }
   editUser(user: any) {
-    this.checkButton = false;
-    this.formGroup.patchValue(user);
-    console.log(user);
+   this.checkButton = false;
+   this.userService.getById(user.id).subscribe(data => {
+      console.log("thành công", data);
+      this.formGroup.patchValue(data);
+   });
   }
   updateUser() {
     this.userService.updateUser(this.formGroup.value).subscribe(data => {
       console.log("thành công", data);
-      this.getAll();
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -86,6 +86,7 @@ export class UserComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
+      this.getAll();
       this.clearForm();
     }, error => {
       console.log("lỗi", error);
@@ -211,6 +212,22 @@ export class UserComponent implements OnInit {
     }else{
       this.user.sort((a:any,b:any)=>b.email.localeCompare(a.email));
     }
+  }
+  getDistrictsByProvinceId(id: any) {
+    this.userService.getDistrictsByProvinceId(id).subscribe(data => {
+      this.Districts = data;
+      console.log("thành công", data);
+    }, error => {
+      console.log("lỗi", error);
+    });
+  }
+  getWardsByDistrictId(id: any) {
+    this.userService.getWardsByDistrictId(id).subscribe(data => {
+      this.Wards = data;
+      console.log("thành công lay xa theo id", data);
+    }, error => {
+      console.log("lỗi", error);
+    });
   }
 }
 
